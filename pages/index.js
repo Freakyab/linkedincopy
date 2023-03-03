@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import LoginPage from "./loginPage";
-import Dashboard from "./Dashboard/index";
+import Dashboard from "./dashboard/index";
 
 function Home() {
   const [user, setUser] = useState(false);
