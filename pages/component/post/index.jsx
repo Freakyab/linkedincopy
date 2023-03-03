@@ -5,12 +5,12 @@ import { HiUserCircle } from "react-icons/hi";
 import { AiFillLike } from "react-icons/ai";
 import { RiEarthFill } from "react-icons/ri";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { FaRegCommentDots, FaUnderline } from "react-icons/fa";
+import { FaRegCommentDots } from "react-icons/fa";
 import { IoMdShareAlt } from "react-icons/io";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { MdPhotoSizeSelectActual, MdSmartDisplay, MdEventNote, MdArticle } from "react-icons/md";
 import axios from "axios";
-import { LazyLoadImage,trackWindowScroll } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 const Post = (props) => {
@@ -153,8 +153,9 @@ const Post = (props) => {
         var today = new Date();
         var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
         var datetime = date;
-        setDateTime(datetime)
+        setDateTime(datetime);
     }
+    
 
     // for post image
     const onchange = async (e) => {
@@ -337,5 +338,5 @@ const Post = (props) => {
     );
 };
 
-export default  (Post);
+export default  Post;
 
