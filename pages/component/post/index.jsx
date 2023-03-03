@@ -14,7 +14,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 const Post = (props) => {
-    const {scroll}  = props.windowScroll;
+    const {windowScroll} = props;
+    const scroll = windowScroll && windowScroll.scroll;
     // require data from database
     const [dateTime, setDateTime] = React.useState("")
     const [downloadUrls, setDownloadUrls] = React.useState([]);
