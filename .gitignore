@@ -31,16 +31,8 @@ yarn-error.log*
 # vercel
 .vercel
 
-firebase
 .firebaserc
-base.js
-firebase.json
-temp/
-firebase/
-storage.rules
 
-firebase/*
 
 /firebase/firebase_config.js
 
-/src/firebase/*
