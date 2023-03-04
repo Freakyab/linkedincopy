@@ -51,22 +51,26 @@ function LoginPage({ setUser, setId }) {
       <div className={styles.login}>
         <h1>Login</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
-            className={styles.inputBox}
-            required
-          />
-          <input
-            type={invisible ? "text" : "password"}
-            name="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            className={styles.inputBox}
-            required
-          />
+          <div className={styles.inputBox}>
+            <input
+              type="text"
+              name="username"
+              // placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <span >Username</span>
+          </div>
+          <div className={styles.inputBox}>
+            <input
+              type={invisible ? "text" : "password"}
+              name="password"
+              // placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <span >Password</span>
+          </div>
           {invisible ? <AiFillEyeInvisible className={styles.icon} onClick={() => {
             setInvisible(!invisible)
           }} /> : <AiFillEye className={styles.icon} onClick={() => {

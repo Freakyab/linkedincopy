@@ -45,27 +45,56 @@
 }
 
 .inputBox {
-   position: relative;
-   width: 100%;
-   padding : 15px 20px;
-   outline: none;
-   font-size: 1.25rem;
-   color: white;
-   border-radius: 5px;
-   background: white;
-   border:none;
-   margin-bottom: 20px;
+  position: relative;
+  width:250px;
 }
+
+.inputBox input {
+    width: 100%;
+    padding: 15px;
+    border:2px solid white;
+    background: transparent;
+    border-radius: 5px;
+    outline: none;
+    color:black;
+    font-size: 1.2em;
+    
+}
+.inputBox span{
+    position: absolute;
+    left: 0;
+    padding: 15px;
+    pointer-events: none;
+    font-size: 1em;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+    letter-spacing: 0.2rem;
+}
+
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span{
+    color:white;
+    transform: translateY(-7px) translateX(10px);
+    font-size: 0.65em;
+    padding : 0 10px;
+    background: black;
+    border-left: 5px solid white;
+    letter-spacing: 0.2rem;
+}
+
 
 .sumbitBtn{
     /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(249,14,232,1) 0%, rgba(5,149,179,1) 100%); */
-    background:  rgba(249,14,232,0.8) ;
+    background: white ;
     width: 100%;
     height: 50px;
     border-radius: 5px;
     cursor: pointer;
     border: none;
-
+    color: black;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
 }
 
 .form{
@@ -73,16 +102,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .icon{
     position: absolute;
-    /* top: 50%; */
     transform: translateX(-420%);
     right: 20px;
-    color: black;
-    font-size: 1.25rem;
+    color: white;
+    font-size: 1.5rem;
+    
 }
 @keyframes rotate {
     from {
