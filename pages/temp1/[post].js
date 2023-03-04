@@ -17,7 +17,6 @@ function post1() {
   const [Url, setUrls] = React.useState("")
   var pathData = router.asPath.split("&")
    pathData[0] = pathData[0].split("/")[2]
-  // console.log(pathData[0],pathData[1])
   const [ObjectData, setObjectData] = React.useState({})
   const [id, setId] = React.useState(null)
 
@@ -124,12 +123,3 @@ function post1() {
 }
 
 export default post1
-
-export async function getServerSideProps({ params }) {
-  const fileName = params.post;
-  return {
-    props: {
-      fileName,
-    },
-  };
-}

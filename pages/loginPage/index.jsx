@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import axios from "axios";
+import styles from "./index.module.css";
+import { AiFillEyeInvisible } from "react-icons/ai";
+import { AiFillEye } from "react-icons/ai";
 
-function LoginPage({ setUser, setId}) {
+
+function LoginPage({ setUser, setId }) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [invisible, setInvisible] = React.useState(false);
+  const [text, setText] = React.useState("password");
+
+  const blobRef = useRef(null);
 
   const handleSubmit = async (e) => {
     console.log("running");
@@ -21,26 +29,53 @@ function LoginPage({ setUser, setId}) {
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <h1>Login</h1>
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
+  useEffect(() => {
+    const blob = blobRef.current;
+    document.body.onpointermove = (e) => {
+      let x = e.pageX;
+      let y = e.pageY;
+      if (blob) {
+        blob.animate({
+          left: `${x}px`,
+          top: `${y}px`
+        }, { duration: 3000, fill: "forwards" })
+      }
+    };
+  }, [blobRef]);
 
-      <button type="submit">Submit</button>
-    </form>
+
+  return (
+
+    <div className={styles.container}>
+      <div className={styles.blob} ref={blobRef}></div>
+      <div className={styles.login}>
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+            className={styles.inputBox}
+            required
+          />
+          <input
+            type={invisible ? "text" : "password"}
+            name="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            className={styles.inputBox}
+            required
+          />
+          {invisible ? <AiFillEyeInvisible className={styles.icon} onClick={() => {
+            setInvisible(!invisible)
+          }} /> : <AiFillEye className={styles.icon} onClick={() => {
+            setInvisible(!invisible)
+          }} />}
+          <button type="submit" className={styles.sumbitBtn}>Submit</button>
+        </form>
+      </div>
+    </div>
   );
 }
 

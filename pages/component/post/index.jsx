@@ -14,10 +14,12 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 const Post = (props) => {
+    const {setOnFeed,onFeed}   = props;
     const {windowScroll} = props;
     const scroll = windowScroll && windowScroll.scroll;
     // require data from database
     const [dateTime, setDateTime] = React.useState("")
+
     const [downloadUrls, setDownloadUrls] = React.useState([]);
     const [feed, setFeed] = React.useState([])
     const [objectData, setObjectData] = React.useState([{ 1: "caption" }])
@@ -74,7 +76,7 @@ const Post = (props) => {
 
                 // for post data
                 setObjectData(res.data.post)
-
+                console.log(res.data.post)
                 setLike(res.data.post[1])
                 // to render page after getting data
                 setUpdate(false)
@@ -97,6 +99,7 @@ const Post = (props) => {
 
                 // object data is complete post data 
                 setObjectData(res.data.post)
+                
             }).catch((err) => {
                 console.log(err)
             })
@@ -223,6 +226,9 @@ const Post = (props) => {
 
     return (
         <>
+        <button onClick = {()=>[
+            setOnFeed(!onFeed)
+        ]}>click me</button>
             <div className={style.mainClass}>
                 <div className={style.mainwrapper}>
                     <div className={style.newpost}>
