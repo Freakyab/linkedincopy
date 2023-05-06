@@ -18,7 +18,8 @@ function LoginPage({ setUser, setId }) {
     e.preventDefault();
     try {
       const res = await axios.get(
-        `https://api-dusky-pi.vercel.app/linkedin/login?username=${username}&password=${password}`
+        "http://localhost:5000/testing/login?username=Temp1@1234&password=1234"
+        // `https://api-dusky-pi.vercel.app/linkedin/login?username=${username}&password=${password}`
       );
       if (res.data.status === true) {
         setUser(true);

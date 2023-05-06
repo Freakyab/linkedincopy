@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 
 import Post from "../component/post";
 import Feed from "../component/feed";
+import Test from "../component/testingProfile"
+import Test1 from "../component/testingFeed"
 
 function Dashboard(props) {
   const [windowScroll, setWindowScroll] = useState(0);
-  const [onFeed, setOnFeed] = useState(false);
-  console.log(onFeed);
-
+  const [onFeed, setOnFeed] = useState(true);
   useEffect(() => {
     function handleScroll() {
       setWindowScroll(window.scrollY);
@@ -19,9 +19,12 @@ function Dashboard(props) {
   return (
     <>
       {onFeed ? (
-        <Feed id = {props.id}  />
+        // <Feed id = {props.id}  />
+        <Test  id = {props.id} onFeed ={onFeed} setOnFeed = {setOnFeed} />
       ) : (
-        <Post id={props.id} windowScroll={windowScroll} setOnFeed = {setOnFeed} onFeed = {onFeed}/>
+        <Test1 id = {props.id} onFeed ={onFeed} setOnFeed = {setOnFeed} />
+        // <Post id={props.id} windowScroll={windowScroll} setOnFeed = {setOnFeed} onFeed = {onFeed}/>
+
       )}
     </>
   );

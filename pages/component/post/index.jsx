@@ -214,7 +214,7 @@ const Post = (props) => {
         }
 
     }
-        ,3[update, objectData])
+        ,[update, objectData])
 
 
     useEffect(() => {

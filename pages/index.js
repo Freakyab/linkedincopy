@@ -3,7 +3,7 @@ import LoginPage from "./loginPage";
 import Dashboard from "./dashboard/index";
 
 function Home() {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(true);
   const [id, setId] = useState(null);
 
   return (
