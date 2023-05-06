@@ -15,6 +15,7 @@ const Profile = (props) => {
     const [update, setUpdate] = useState(false);
     const [display, setDisplay] = useState(false);
     const [ProfileData, SetProfileData] = useState([]);
+    const [img, setImg] = useState([])
     const [like, setLike] = useState([])
 
 
@@ -65,6 +66,13 @@ const Profile = (props) => {
         return `${days} day`
     }
 
+    const handleChangefile = async (event) => {
+        if (event.target.files && event.target.files[0]) {
+            setImg(URL.createObjectURL(event.target.files[0]));
+        }
+    }
+
+
     useEffect(() => {
         fetchData()
     }, [])
@@ -80,7 +88,6 @@ const Profile = (props) => {
                 <div style={{ display: "flex", justifyContent: "center" }}>
 
                     <div className={style.feed}>
-
                         <div className={style.feedpostcard}>
                             <div className={style.feedpostcardheader}>
                                 <div className={style.feedpostcardheaderleft}>

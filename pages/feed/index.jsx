@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { storageRef } from "../../../base"
+// import { storageRef } from "../../base"
 import { HiUserCircle } from "react-icons/hi";
 import { AiFillLike } from "react-icons/ai";
 import { RiEarthFill } from "react-icons/ri";
@@ -14,6 +14,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import style from "../post/index.module.css"
 const Feed = (props) => {
+  const { windowScroll, setOnFeed, onFeed} = props;
   const [update, setUpdate] = useState(true);
   const [feed, setFeed] = useState([]);
   const [username, setUsername] = useState([]);
@@ -111,6 +112,7 @@ const Feed = (props) => {
 
   return (
     <>
+      <button onClick={()=>setOnFeed(!onFeed)}>click me</button>
       {urls === undefined ? null :urls.map((url, index) => (
       <div style={{ display: "flex", justifyContent: "center" }}>
 
