@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import storage from "../../firebaseConfig";
 import style from "./index.module.css";
 import { HiUserCircle } from "react-icons/hi";
-import { AiFillLike } from "react-icons/ai";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { RiEarthFill } from "react-icons/ri";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { FaRegCommentDots } from "react-icons/fa";
@@ -12,7 +12,7 @@ import { MdPhotoSizeSelectActual, MdSmartDisplay, MdEventNote, MdArticle } from 
 
 // import axios from "axios";
 import Dialog from "../component/dialog";
-import { ref, listAll, getDownloadURL } from "firebase/storage";
+import { ref, listAll, getDownloadURL, deleteObject } from "firebase/storage";
 // import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const Post = (props) => {
@@ -25,17 +25,73 @@ const Post = (props) => {
     const isRendered = useRef(false);
     const [displayImg, setDisplayImg] = useState(null);
     const [profileData, setProfileData] = useState(null);
-    // functions required
+    const [moreOption, setMoreOption] = useState([]);
+    const [imgName, setImageName] = useState([]);
+    const click = Array(url.length).fill(false);
+
+    // handle clicks
     const handleChangeImg = (event) => {
-        console.log("running")
         if (event.target.files && event.target.files[0]) {
             setImg(event.target.files[0]);
             setShowDialog(!showDialog);
             setDisplayImg(URL.createObjectURL(event.target.files[0]));
-            setUpdate(!update);
         }
     }
 
+    const handleClick = (e) => {
+        click[e] = !click[e];
+        setMoreOption(click);
+    }
+
+    // For like
+
+    const likePost = (postId) => {
+        fetch("http://localhost:5000/testing/like", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                postId: postId,
+                userId: id
+            })
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status) {
+                    setUpdate(!update);
+                }
+            });
+    }
+
+    const deletePost = (postId) => {
+        const storageRef = ref(storage, `images/${id}/${id} ${postId}.jpg`);
+        deleteObject(storageRef)
+            .then(() => {
+                fetch("http://localhost:5000/testing/deletePost", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        postId: postId,
+                        userId: id
+                    })
+                }).then(res => res.json())
+                    .then(() => setUpdate(!update)).catch(err => {
+                        console.log(err);
+                    });
+            })
+            .catch((error) => {
+                // Uh-oh, an error occurred!
+                console.log(error);
+            });
+
+    }
+
+
+
+    // fetch data
     const fetchData = async () => {
         const storageRef = ref(storage, `images/${id}`);
         listAll(storageRef)
@@ -46,6 +102,8 @@ const Post = (props) => {
                         .then((url) => {
                             // Use the URL to display the image in your app
                             setUrl((prevUrls) => [...prevUrls, url]);
+                            let name = itemRef.name.split(" ")[1].split(".")[0];
+                            setImageName((previmgName) => [...previmgName, name])
                         })
                         .catch((error) => {
                             console.log(error);
@@ -67,9 +125,8 @@ const Post = (props) => {
         }).then(res => res.json())
             .then(data => {
                 console.log(data.post);
-                if(data.status)
+                if (data.status)
                     setProfileData(data.post);
-                
             })
             .catch(err => {
                 console.log(err);
@@ -91,9 +148,7 @@ const Post = (props) => {
 
     return (
         <>
-            <button onClick={() => [
-                setOnFeed(!onFeed)
-            ]}>click me</button>
+            <button onClick={() => setOnFeed(!onFeed)}>click me</button>
             <div className={showDialog ? "h-[100vh] pointer-events-none blur-md" : null}>
                 <div className={style.mainClass}>
                     <div className={style.mainwrapper}>
@@ -126,37 +181,40 @@ const Post = (props) => {
                         </div>
                         <div className="flex flex-col">
 
-                            {url && url.map((item, index) => (
-                                <div className={style.feed} key={profileData[index].id}>
+                            {profileData && profileData.map((item, index) => (
+                                <div className={style.feed}>
                                     <div className={style.feedpostcard}>
                                         <div className={style.feedpostcardheader}>
-                                            <div className={style.feedpostcardheaderleft}>
+                                            <div className={style.feedpostcardheaderleft} key={index}>
                                                 <span>
                                                     <HiUserCircle size="3rem" />
                                                 </span>
                                                 <span>
-                                                    <h3>{profileData[index].name}</h3>
+                                                    <h3>{item.name ?? null}</h3>
                                                     <p>
-                                                        <span> {profileData[index].time} • </span>
+                                                        <span> {item.time ?? null}  • </span>
                                                         <RiEarthFill />
                                                     </p>
                                                 </span>
                                             </div>
                                             <div className={style.feedpostcardheaderright}>
+                                                {moreOption[index] ?
+                                                    <p className="cursor-pointer" onClick={() => deletePost(item._id, index)}
+                                                    >delete</p>
+                                                    : null}
                                                 <span>
-                                                    <FiMoreHorizontal size="1.2rem" />
+                                                    <FiMoreHorizontal size="1.5rem" onClick={() => handleClick(index)} />
                                                 </span>
                                             </div>
                                         </div>
                                         <div className={style.feedpostcardbody}>
-                                            {console.log(item)}
-                                            <img src={item} alt="image" />
-                                            <p>{profileData[index].caption}</p>
+                                            <img src={url[imgName.findIndex(e => e === item._id)]} alt="image" />
+                                            <p>{item?.caption ?? null}</p>
                                         </div>
                                         <div className={style.feedpostcardfooter}>
-                                            <ul>
-                                                <li>
-                                                    <AiFillLike size="1.5rem" />
+                                            <ul className="cursor-pointer">
+                                                <li onClick={() => likePost(item._id)}>
+                                                    {item.like.filter(e => e === item.name).length ? <AiFillLike size="1.5rem" className="text-blue-600" /> : <AiOutlineLike size="1.5rem" />}
                                                     <span>Like</span>
                                                 </li>
                                                 <li>
@@ -175,6 +233,7 @@ const Post = (props) => {
                                                 </li>
                                             </ul>
                                         </div>
+                                        <span>{item ? item.like.length > 1 ? `${item.like[item.like.length - 1]} and ${item.like.length - 1} likes` : `${item.like}` : null}</span>
                                     </div>
                                 </div>
                             ))}
@@ -183,7 +242,7 @@ const Post = (props) => {
                     </div>
                 </div>
             </div>
-            {img === null ? null : <Dialog {...{ img, setImg, setShowDialog, caption, setCaption, showDialog, id, setDisplayImg, displayImg }} />}
+            {img === null ? null : <Dialog {...{ img, setImg, setShowDialog, caption, setCaption, showDialog, id, setDisplayImg, displayImg, update, setUpdate }} />}
         </>
     );
 };

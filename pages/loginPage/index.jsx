@@ -5,7 +5,7 @@ import { AiFillEyeInvisible } from "react-icons/ai";
 import { AiFillEye } from "react-icons/ai";
 
 
-function LoginPage({ setUser, setId }) {
+function LoginPage({ setUser, setId,name ,setName}) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [invisible, setInvisible] = React.useState(false);
@@ -18,12 +18,14 @@ function LoginPage({ setUser, setId }) {
     e.preventDefault();
     try {
       const res = await axios.get(
-        "http://localhost:5000/testing/login?username=Temp1@1234&password=1234"
+        "http://localhost:5000/testing/login?username=" + username + "&password=" + password 
         // `https://api-dusky-pi.vercel.app/linkedin/login?username=${username}&password=${password}`
       );
+      console.log(res);
       if (res.data.status === true) {
         setUser(true);
         setId(res.data.userId);
+        setName(res.data.name);
       }
     } catch (err) {
       console.log(err);
