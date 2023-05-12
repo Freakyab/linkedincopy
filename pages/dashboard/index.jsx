@@ -8,7 +8,7 @@ import Feed from "../../pages/feed"
 function Dashboard(props) {
   const { id,name } = props;
   const [windowScroll, setWindowScroll] = useState(0);
-  const [onFeed, setOnFeed] = useState(true);
+  const [onFeed, setOnFeed] = useState(false);
   useEffect(() => {
     function handleScroll() {
       setWindowScroll(window.scrollY);

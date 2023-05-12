@@ -13,7 +13,7 @@ import axios from 'axios';
 import style from "./../post/index.module.css"
 
 const Feed = (props) => {
-    const { setOnFeed, onFeed, id,name } = props;
+    const { setOnFeed, onFeed, id, name } = props;
     const [update, setUpdate] = useState(false);
     const [feedData, setFeedData] = useState([]);
     const [url, setUrl] = useState([]);
@@ -48,22 +48,22 @@ const Feed = (props) => {
 
 
     const fetchData = async () => {
-            await axios.get(`http://localhost:5000/testing/feed?no=10&render=${liked}`)
-                .then(res => {
-                    if (res.data.status) {
-                        setFeedData(res.data.post);
-                        setUserId(res.data.userId.filter(item => item.split(" ")[0] !== "undefined" && item.split(" ")[1] !== "undefined"));
-                        res.data.userId.filter(item => item.split(" ")[0] !== "undefined" && item.split(" ")[1] !== "undefined").map(async (item, index) => {
-                            const storageRef = ref(storage, `images/${item.split(" ")[0]}/${item}.jpg`);
-                            const url = await getDownloadURL(storageRef);
-                            setUrl((prevUrls) => [...prevUrls, url]);
-                        })
-                        setLiked(true);
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+        await axios.get(`http://localhost:5000/testing/feed?no=10&render=${liked}`)
+            .then(res => {
+                if (res.data.status) {
+                    setFeedData(res.data.post);
+                    setUserId(res.data.userId.filter(item => item.split(" ")[0] !== "undefined" && item.split(" ")[1] !== "undefined"));
+                    res.data.userId.filter(item => item.split(" ")[0] !== "undefined" && item.split(" ")[1] !== "undefined").map(async (item, index) => {
+                        const storageRef = ref(storage, `images/${item.split(" ")[0]}/${item}.jpg`);
+                        const url = await getDownloadURL(storageRef);
+                        setUrl((prevUrls) => [...prevUrls, url]);
+                    })
+                    setLiked(true);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
 
@@ -110,7 +110,7 @@ const Feed = (props) => {
                             <div className={style.feedpostcardfooter}>
                                 <ul className="cursor-pointer">
                                     <li onClick={() => likePost(item._id)}>
-                                        {item.like.filter(e=> e === name).length ? <AiFillLike size="1.5rem" className="text-blue-600" /> : <AiOutlineLike size="1.5rem" />}
+                                        {item.like.filter(e => e === name).length ? <AiFillLike size="1.5rem" className="text-blue-600" /> : <AiOutlineLike size="1.5rem" />}
                                         <span>Like</span>
                                     </li>
                                     <li>
@@ -119,7 +119,7 @@ const Feed = (props) => {
                                     </li>
                                     <li>
                                         <IoMdShareAlt size="2rem" onClick={() => {
-                                            navigator.clipboard.writeText(`http://localhost:3000/temp1/temp&${index + 1}`)
+                                            navigator.clipboard.writeText(`http://localhost:3000/temp1/${item.userId}&${item._id}&${name}`);
                                         }} />
                                         <span>Share</span>
                                     </li>

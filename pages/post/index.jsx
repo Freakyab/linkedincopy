@@ -223,7 +223,7 @@ const Post = (props) => {
                                                 </li>
                                                 <li>
                                                     <IoMdShareAlt size="2rem" onClick={() => {
-                                                        navigator.clipboard.writeText(`http://localhost:3000/temp1/temp&${index + 1}`)
+                                                        navigator.clipboard.writeText(`http://localhost:3000/temp1/${id}&${item._id}&${item.name}`)
                                                     }} />
                                                     <span>Share</span>
                                                 </li>
