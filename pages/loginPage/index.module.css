@@ -19,9 +19,10 @@
     transform: translate(-50%, -50%);
     border-radius: 50%;
     background: linear-gradient(0deg, rgba(2, 0, 36, 1) 0%, rgba(249, 14, 232, 1) 0%, rgba(5, 149, 179, 1) 100%);
-    overflow: hidden;
+    overflow-x: hidden;
     animation: rotate 5s infinite;
     filter: blur(80px);
+    z-index: -1;
 }
 
 .login {
@@ -47,6 +48,7 @@
 .inputBox {
   position: relative;
   width:250px;
+  display: flex;
 }
 
 .inputBox input {
@@ -107,9 +109,8 @@
 
 .icon{
     position: absolute;
-    transform: translateX(-420%);
+    transform: translate(-5%,80%);
     right: 20px;
-    color: white;
     font-size: 1.5rem;
     
 }

@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
 import storage from "../../firebaseConfig";
 import { HiUserCircle } from "react-icons/hi";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { RiEarthFill } from "react-icons/ri";
-import { FiMoreHorizontal } from "react-icons/fi";
-import { FaRegCommentDots, FaUnderline } from "react-icons/fa";
+import { FaRegCommentDots } from "react-icons/fa";
 import { IoMdShareAlt } from "react-icons/io";
 import { RiSendPlaneFill } from "react-icons/ri";
 
@@ -80,59 +79,63 @@ const Feed = (props) => {
     return (
         <>
             <button onClick={() => setOnFeed(!onFeed)}>click me</button>
-            <div className='flex flex-col justify-center content-center'>
-                {feedData && feedData.map((item, index) => (
-                    <div className={style.feed}>
-                        <div className={style.feedpostcard}>
-                            <div className={style.feedpostcardheader}>
-                                <div className={style.feedpostcardheaderleft} key={index}>
-                                    <span>
-                                        <HiUserCircle size="3rem" />
-                                    </span>
-                                    <span>
-                                        <h3>{item.name ?? null}</h3>
-                                        <p>
-                                            <span> {item.time ?? null}  • </span>
-                                            <RiEarthFill />
-                                        </p>
-                                    </span>
+            <div className={style.mainClass}>
+
+                <div className={style.mainwrapper}>
+
+                    <div className='flex flex-col justify-center content-center'>
+                        {feedData && feedData.map((item, index) => (
+                            <div className={style.feed}>
+                                <div className={style.feedpostcard}>
+                                    <div className={style.feedpostcardheader}>
+                                        <div className={style.feedpostcardheaderleft} key={index}>
+                                            <span>
+                                                <HiUserCircle size="3rem" />
+                                            </span>
+                                            <span>
+                                                <h3>{item.name ?? null}</h3>
+                                                <p>
+                                                    <span> {item.time ?? null}  • </span>
+                                                    <RiEarthFill />
+                                                </p>
+                                            </span>
+                                        </div>
+                                        <div className={style.feedpostcardheaderright}>
+                                            <span>...</span>
+                                        </div>
+                                    </div>
+                                    <div className={style.feedpostcardbody}>
+                                        <img src={url[userId.findIndex(e => e.split(" ")[1] === item._id)]} alt="image" />
+                                        <p>{item?.caption ?? null}</p>
+                                    </div>
+                                    <div className={style.feedpostcardfooter}>
+                                        <ul className="cursor-pointer">
+                                            <li onClick={() => likePost(item._id)}>
+                                                {item.like.filter(e => e === name).length ? <AiFillLike size="1.5rem" className="text-blue-600" /> : <AiOutlineLike size="1.5rem" />}
+                                                <span>Like</span>
+                                            </li>
+                                            <li>
+                                                <FaRegCommentDots size="1.5rem" />
+                                                <span>Comment</span>
+                                            </li>
+                                            <li>
+                                                <IoMdShareAlt size="2rem" onClick={() => {
+                                                    navigator.clipboard.writeText(`http://localhost:3000/temp1/${item.userId}&${item._id}&${name}`);
+                                                }} />
+                                                <span>Share</span>
+                                            </li>
+                                            <li>
+                                                <RiSendPlaneFill size="1.5rem" />
+                                                <span>Send</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <span>{item ? item.like.length > 1 ? `${item.like[item.like.length - 1]} and ${item.like.length - 1} likes` : `${item.like}` : null}</span>
                                 </div>
-                                <div className={style.feedpostcardheaderright}>
-                                    {/* <span>
-                                        <FiMoreHorizontal size="1.5rem" onClick={() => handleClick(index)} />
-                                    </span> */}
-                                </div>
                             </div>
-                            <div className={style.feedpostcardbody}>
-                                <img src={url[userId.findIndex(e => e.split(" ")[1] === item._id)]} alt="image" />
-                                <p>{item?.caption ?? null}</p>
-                            </div>
-                            <div className={style.feedpostcardfooter}>
-                                <ul className="cursor-pointer">
-                                    <li onClick={() => likePost(item._id)}>
-                                        {item.like.filter(e => e === name).length ? <AiFillLike size="1.5rem" className="text-blue-600" /> : <AiOutlineLike size="1.5rem" />}
-                                        <span>Like</span>
-                                    </li>
-                                    <li>
-                                        <FaRegCommentDots size="1.5rem" />
-                                        <span>Comment</span>
-                                    </li>
-                                    <li>
-                                        <IoMdShareAlt size="2rem" onClick={() => {
-                                            navigator.clipboard.writeText(`http://localhost:3000/temp1/${item.userId}&${item._id}&${name}`);
-                                        }} />
-                                        <span>Share</span>
-                                    </li>
-                                    <li>
-                                        <RiSendPlaneFill size="1.5rem" />
-                                        <span>Send</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <span>{item ? item.like.length > 1 ? `${item.like[item.like.length - 1]} and ${item.like.length - 1} likes` : `${item.like}` : null}</span>
-                        </div>
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
         </>
     );

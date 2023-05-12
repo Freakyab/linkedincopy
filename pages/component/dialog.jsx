@@ -2,7 +2,7 @@ import Storage from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 // import { useState } from "react";
 
-const Dialog = ({ img, setImg, setShowDialog, caption, setCaption, showDialog, id, setDisplayImg, displayImg, update, setUpdate  }) => {
+const Dialog = ({ img, setImg, setShowDialog, caption, setCaption, showDialog, id, setDisplayImg, displayImg, update, setUpdate, setUrl, setImageName, msg }) => {
     const uploadImage = (postId) => {
         const storageRef = ref(Storage, `images/${id}/${id} ${postId}.jpg`);
         const uploadTask = uploadBytesResumable(storageRef, img);
@@ -23,6 +23,10 @@ const Dialog = ({ img, setImg, setShowDialog, caption, setCaption, showDialog, i
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log("File available at", downloadURL);
+                    setUrl((prev) => [...prev, downloadURL])
+
+                    setImageName((previmgName) => [...previmgName, postId])
+                    setUpdate(!update)
                     setUpdate(!update)
                 });
             }
@@ -48,6 +52,7 @@ const Dialog = ({ img, setImg, setShowDialog, caption, setCaption, showDialog, i
                     if (data.status) {
                         uploadImage(data.postId);
                         setUpdate(!update);
+                        msg("upload");
                     }
                 });
         } catch (err) {

@@ -9,18 +9,16 @@
   --primary-color: #003366;
   --secondary-color: rgb(47, 143, 138);
   --tertiary-color: #d9f3f1;
-  --font-color: #fff;
+  --font-color: #ccb8b8;
   --border-radius: 12px;
   --font-1: "Poppins", sans-serif;
   --font-2: "Fira Sans", sans-serif;
   --font-3: "Great Vibes", cursive;
   --font-4: "Reenie Beanie", cursive;
   --box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
-  --background-color: linear-gradient(
-    105deg,
-    rgba(0, 51, 102, 1) 0%,
-    rgba(47, 143, 138, 1) 100%
-  );
+  --background-color: linear-gradient(105deg,
+      rgba(0, 51, 102, 1) 0%,
+      rgba(47, 143, 138, 1) 100%);
 }
 
 * {
@@ -33,7 +31,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: var(--tertiary-color);
+  background-color: #A9C9FF;
+background-image: linear-gradient(180deg, #A9C9FF 0%, #FFBBEC 100%);
   font-family: var(--font-1);
 }
-

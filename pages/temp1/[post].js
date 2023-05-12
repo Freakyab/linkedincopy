@@ -5,7 +5,7 @@ import style from "../post/index.module.css";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 
 import { HiUserCircle } from "react-icons/hi";
-import { AiFillLike,AiOutlineLike } from "react-icons/ai";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { RiEarthFill } from "react-icons/ri";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { FaRegCommentDots, FaUnderline } from "react-icons/fa";
@@ -58,56 +58,60 @@ function post1() {
     <>
       {
         url != "" ? (
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div className={style.feed}>
-              <div className={style.feedpostcard}>
-                <div className={style.feedpostcardheader}>
-                  <div className={style.feedpostcardheaderleft}>
-                    <span>
-                      <HiUserCircle size="3rem" />
-                    </span>
-                    <span>
-                      <h3>{data.name ?? null}</h3>
-                      <p>
-                        <span> {data.time ?? null}  • </span>
-                        <RiEarthFill />
-                      </p>
-                    </span>
-                  </div>
-                  {/* <div className={style.feedpostcardheaderright}>
+          <div className={style.mainClass}>
+
+            <div className={style.mainwrapper}>
+              <div className={style.feed}>
+                <div className={style.feedpostcard}>
+                  <div className={style.feedpostcardheader}>
+                    <div className={style.feedpostcardheaderleft}>
+                      <span>
+                        <HiUserCircle size="3rem" />
+                      </span>
+                      <span>
+                        <h3>{data.name ?? null}</h3>
+                        <p>
+                          <span> {data.time ?? null}  • </span>
+                          <RiEarthFill />
+                        </p>
+                      </span>
+                    </div>
+                    {/* <div className={style.feedpostcardheaderright}>
               
                   </div> */}
+                  </div>
+                  <div className={style.feedpostcardbody}>
+                    <img src={url} alt="image" />
+                    <p>{data?.caption ?? null}</p>
+                  </div>
+                  <div className={style.feedpostcardfooter}>
+                    <ul className="cursor-pointer">
+                      <li onClick={() => likePost(data._id)}>
+                        {data.like.filter(e => e === name).length ? <AiFillLike size="1.5rem" className="text-blue-600" /> : <AiOutlineLike size="1.5rem" />}
+                        <span>Like</span>
+                      </li>
+                      <li>
+                        <FaRegCommentDots size="1.5rem" />
+                        <span>Comment</span>
+                      </li>
+                      <li>
+                        <IoMdShareAlt size="2rem" onClick={() => {
+                          navigator.clipboard.writeText(`http://localhost:3000/temp1/temp&${index + 1}`)
+                        }} />
+                        <span>Share</span>
+                      </li>
+                      <li>
+                        <RiSendPlaneFill size="1.5rem" />
+                        <span>Send</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <span>{data ? data.like.length > 1 ? `${data.like[data.like.length - 1]} and ${data.like.length - 1} likes` : `${data.like}` : null}</span>
                 </div>
-                <div className={style.feedpostcardbody}>
-                  <img src={url} alt="image" />
-                  <p>{data?.caption ?? null}</p>
-                </div>
-                <div className={style.feedpostcardfooter}>
-                  <ul className="cursor-pointer">
-                    <li onClick={() => likePost(data._id)}>
-                      {data.like.filter(e => e === name).length ? <AiFillLike size="1.5rem" className="text-blue-600" /> : <AiOutlineLike size="1.5rem" />}
-                      <span>Like</span>
-                    </li>
-                    <li>
-                      <FaRegCommentDots size="1.5rem" />
-                      <span>Comment</span>
-                    </li>
-                    <li>
-                      <IoMdShareAlt size="2rem" onClick={() => {
-                        navigator.clipboard.writeText(`http://localhost:3000/temp1/temp&${index + 1}`)
-                      }} />
-                      <span>Share</span>
-                    </li>
-                    <li>
-                      <RiSendPlaneFill size="1.5rem" />
-                      <span>Send</span>
-                    </li>
-                  </ul>
-                </div>
-                <span>{data ? data.like.length > 1 ? `${data.like[data.like.length - 1]} and ${data.like.length - 1} likes` : `${data.like}` : null}</span>
               </div>
             </div>
           </div>
+
         ) : null
       }
     </>
